@@ -3,8 +3,10 @@ import os from 'os';
 
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
 import { STATE } from "./globalValues.js";
+// import { createFile } from "./createFile.js";
+import { getOsInfo } from "./getOsInfo.js";
 
-export const start = () => {
+export const start = async () => {
   const userNameString = process.argv[2];
 
   if (!userNameString.startsWith('--username=')) {
@@ -19,36 +21,44 @@ export const start = () => {
   showWorkingDirectory(import.meta.url);
 
   process.stdin.on('data', data => {
-    let curText = data.toString().trim().replace(EOL, "");
-    if (curText.toUpperCase() === '.EXIT') {
-      process.exit();
-    } else {
-
+    const arrText = data.toString().trim().replace(EOL, "").split(" ");
+    const curCommand = arrText[0];
+    const curText1 = arrText[1];
+    const curText2 = arrText[2];
+    switch (curCommand) {
+      case '.exit':
+        process.exit();
+        break;
+      case 'add':
+        // createFile(curText1);
+        break;
+      case 'cd':
+        break;
+    
+      case 'os':
+        getOsInfo(curText1);
+        break;
+      // case value:
+        
+      //   break;
+      // case value:
+        
+      //   break;
+      default:
+        break;
     }
+    showWorkingDirectory(import.meta.url);
   });
+  
 
   process.on('SIGINT', () => {
     process.exit();
   });
   process.on('exit', () => {
     console.log(`Thank you for using File Manager, ${STATE.userName}!${EOL}`);
-
   });
 
-  // const { stdin, stdout } = process;
-  // stdout.write('\n*** Пожалуста, введите ваши данные:\n');
-  // let resText = '';
-  // stdin.on('data', data => {
-  //   let curText = data.toString();
-  //   if (curText.trim().replace(/(^\s+|\s+$)/g, "").toUpperCase() === 'EXIT') {
-  //     process.exit();
-  //   } else {
-  //     resText += curText;
-  //     output.write(curText);
-  //   }
 
-  // });
-  
 };
 
 start();
