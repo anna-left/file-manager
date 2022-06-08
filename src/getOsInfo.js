@@ -11,9 +11,12 @@ function getOsInfo(userInfoProperty) {
       break;
     case '--cpus':
       console.log(`overall amount of CPUS : ${os.cpus().length}`);
+      const arrCpus = [];
       os.cpus().forEach(cpu => {
-        console.log(`model: ${cpu.model}; clock rate: ${cpu.speed / 1000}GHz`);
+        const objectCpu = {'model': cpu.model, 'clock rate': `${cpu.speed / 1000} GHz`};
+        arrCpus.push(objectCpu);
       });
+      console.table(arrCpus);
       break;
     case '--homedir':
       console.log(os.homedir());
