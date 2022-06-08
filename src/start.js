@@ -2,20 +2,26 @@ import { EOL } from 'os';
 import os from 'os';
 import readline from 'readline';
 
+import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
 import { getParentDirectory } from "./getParentDirectory.js";
-import { STATE } from "./globalValues.js";
+import { getChildrenDirectory } from "./getChildrenDirectory.js";
 // import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
-
   if (!userNameString.startsWith('--username=')) {
+    console.log('Invalid input');
+    return;
+  }
+  const userName = userNameString.replace('--username=', '');
+  if (!userName) {
+    console.log('Invalid input');
     return;
   }
 
-  STATE.userName = userNameString.replace('--username=', '');
+  STATE.userName = userName;
   STATE.workingDirectory = os.homedir();
 
   console.log();
@@ -40,7 +46,6 @@ export const start = async () => {
       case 'add':
         // createFile(curText1);
         break;
-      case 'cd':
         break;
 
       case 'os':
@@ -49,7 +54,11 @@ export const start = async () => {
       case 'up':
         getParentDirectory();
         break;
-      // case value:
+      case 'cd':
+        getChildrenDirectory(curText1);
+        break;
+      // case ' ':
+        
       //   break;
       // case value:
       //   break;
