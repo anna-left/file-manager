@@ -1,7 +1,9 @@
 import { EOL } from 'os';
 import os from 'os';
+import readline from 'readline';
 
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
+import { getParentDirectory } from "./getParentDirectory.js";
 import { STATE } from "./globalValues.js";
 // import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
@@ -20,7 +22,13 @@ export const start = async () => {
   console.log(`Welcome to the File Manager, ${STATE.userName}!`);
   showWorkingDirectory(import.meta.url);
 
-  process.stdin.on('data', data => {
+  const rlInterface = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+
+  rlInterface.on('line', data => {
     const arrText = data.toString().trim().replace(EOL, "").split(" ");
     const curCommand = arrText[0];
     const curText1 = arrText[1];
@@ -34,22 +42,30 @@ export const start = async () => {
         break;
       case 'cd':
         break;
-    
+
       case 'os':
         getOsInfo(curText1);
         break;
+      case 'up':
+        getParentDirectory();
+        break;
       // case value:
-        
       //   break;
       // case value:
-        
+      //   break;
+      // case value:
+      //   break;
+      // case value:
       //   break;
       default:
+        console.log('Invalid input');
         break;
     }
     showWorkingDirectory(import.meta.url);
+  }).on('close', () => {
+    // console.log('exit');
+    process.exit();
   });
-  
 
   process.on('SIGINT', () => {
     process.exit();
