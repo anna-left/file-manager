@@ -1,1 +1,5 @@
-export const STATE = { userName: "", workingDirectory: ''};
+export const STATE = { 
+  userName: "",
+  workingDirectory: '',
+  messageInvalidInput: 'Invalid input'
+};
