@@ -1,7 +1,7 @@
 import { EOL } from 'os';
 import os from 'os';
 import readline from 'readline';
-import { chdir, cwd } from 'node:process';
+import { chdir } from 'node:process';
 
 import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";

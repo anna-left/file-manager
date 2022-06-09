@@ -1,5 +1,4 @@
 import os from 'os';
-import { EOL } from 'os';
 
 function getOsInfo(osInfoProperty) {
   switch (osInfoProperty) {
