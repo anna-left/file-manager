@@ -1,8 +1,6 @@
-import fs from 'fs';
+import { cwd } from 'node:process';
 import path from 'path';
 import { join } from 'path';
-
-import { STATE } from "./globalValues.js";
 
 export const getPathFromFile = (fileName) => {
 
@@ -10,22 +8,9 @@ export const getPathFromFile = (fileName) => {
     return '';
   }
 
-  const parseFileName = path.parse(fileName)
-  const pathIsAbsolute = path.isAbsolute(fileName);
-  
-  if (!parseFileName.dir || !pathIsAbsolute) {
-    fileName = join(STATE.workingDirectory, fileName);
+  if (!path.isAbsolute(fileName)) {
+    fileName = join(cwd(), fileName);
   }
 
   return fileName;
 }
-
-
-
-// import { fileURLToPath } from 'url';
-// import { dirname, join } from 'path';
-
-// export const getPathFromFile = (url, fileName='') => {
-//   const __dirname = dirname(fileURLToPath(url));
-//   return join(__dirname, fileName);
-// }

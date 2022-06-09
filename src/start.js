@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import os from 'os';
 import readline from 'readline';
+import { chdir, cwd } from 'node:process';
 
 import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
@@ -24,7 +25,7 @@ export const start = async () => {
   }
 
   STATE.userName = userName;
-  STATE.workingDirectory = os.homedir();
+  chdir(os.homedir());
 
   console.log();
   console.log(`Welcome to the File Manager, ${STATE.userName}!`);
@@ -75,7 +76,6 @@ export const start = async () => {
     }
     showWorkingDirectory();
   }).on('close', () => {
-    // console.log('exit');
     process.exit();
   });
 

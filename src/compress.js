@@ -1,10 +1,7 @@
 import fs from 'fs';
 import zlib from 'zlib';
-import path from 'path';
-import { join } from 'path';
 import { existsSync } from 'fs';
 
-import { STATE } from "./globalValues.js";
 import { getPathFromFile } from "./getPathFromFile.js";
 
 export const compress = (fileName, compressFileName) => {

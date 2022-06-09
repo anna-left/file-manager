@@ -1,8 +1,10 @@
 import { dirname } from 'path';
-
-import { STATE } from "./globalValues.js";
+import { chdir, cwd } from 'node:process';
 
 export const getParentDirectory = () => {
-  STATE.workingDirectory = dirname(STATE.workingDirectory);
-  console.log(STATE.workingDirectory);
+  try {
+    chdir(dirname(cwd()));
+  } catch (error) {
+    console.log('Operation failed');
+  }
 };
