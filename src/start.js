@@ -12,7 +12,7 @@ import { compress } from "./compress.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
-  if (!userNameString.startsWith('--username=')) {
+  if (!userNameString || !userNameString.startsWith('--username=')) {
     console.log('Invalid input');
     return;
   }
