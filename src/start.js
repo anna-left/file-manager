@@ -7,10 +7,11 @@ import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
 import { getParentDirectory } from "./getParentDirectory.js";
 import { getNewDirectory } from "./getNewDirectory.js";
-// import { createFile } from "./createFile.js";
+import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
 import { compress } from "./compress.js";
 import { list } from "./list.js";
+import { cat } from "./cat.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
@@ -47,10 +48,8 @@ export const start = async () => {
         process.exit();
         break;
       case 'add':
-        // createFile(curText1);
+        createFile(curText1);
         break;
-        break;
-
       case 'os':
         getOsInfo(curText1);
         break;
@@ -66,8 +65,9 @@ export const start = async () => {
       case 'ls':
         list();
         break;
-      // case value:
-      //   break;
+      case 'cat':
+        cat(curText1);
+        break;
       // case value:
       //   break;
       default:
