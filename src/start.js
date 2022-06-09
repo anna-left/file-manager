@@ -9,6 +9,7 @@ import { getNewDirectory } from "./getNewDirectory.js";
 // import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
 import { compress } from "./compress.js";
+import { list } from "./list.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
@@ -61,8 +62,9 @@ export const start = async () => {
       case 'compress':
         compress(curText1, curText2);
         break;
-      // case value:
-      //   break;
+      case 'ls':
+        list();
+        break;
       // case value:
       //   break;
       // case value:

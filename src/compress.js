@@ -5,22 +5,16 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 
 import { STATE } from "./globalValues.js";
-// import { getPathFromFile } from "./getPathFromFile.js";
+import { getPathFromFile } from "./getPathFromFile.js";
 
-export const compress = async (fileName, compressFileName) => {
+export const compress = (fileName, compressFileName) => {
 
-  // fileName = await getPathFromFile(fileName);
+  fileName = getPathFromFile(fileName);
+  compressFileName = getPathFromFile(compressFileName);
 
   if (!fileName || !compressFileName) {
-    console.log('Invalid input');
+    console.log('Operation failed');
     return;
-  }
-
-  const parseFileName = path.parse(fileName)
-  const pathIsAbsolute = path.isAbsolute(fileName);
-
-  if (!parseFileName.dir || !pathIsAbsolute) {
-    fileName = join(STATE.workingDirectory, fileName);
   }
 
   if (!existsSync(fileName)) {
@@ -28,13 +22,6 @@ export const compress = async (fileName, compressFileName) => {
     return;
   }
 
-  const parseCompressFileName = path.parse(compressFileName)
-  const compressPathIsAbsolute = path.isAbsolute(compressFileName);
-
-  if (!parseCompressFileName.dir || !compressPathIsAbsolute) {
-    compressFileName = join(STATE.workingDirectory, compressFileName);
-  }
-  
   const readStream = fs.createReadStream(fileName);
   const writeStream = fs.createWriteStream(compressFileName);
 
@@ -46,9 +33,4 @@ export const compress = async (fileName, compressFileName) => {
     console.log('Operation failed');
   }
 
-  // const stream = readStream.pipe(brotli).pipe(writeStream);
-
-  // stream.on('finish', () => {
-  //   console.log('Done compressing 😎');
-  // })
 };
