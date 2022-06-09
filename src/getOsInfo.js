@@ -1,13 +1,13 @@
 import os from 'os';
 import { EOL } from 'os';
 
-function getOsInfo(userInfoProperty) {
-  switch (userInfoProperty) {
+function getOsInfo(osInfoProperty) {
+  switch (osInfoProperty) {
     case '--username':
       console.log(os.userInfo().username);
       break;
     case '--EOL':
-      console.log(EOL);
+      console.log(JSON.stringify(os.EOL));
       break;
     case '--cpus':
       console.log(`overall amount of CPUS : ${os.cpus().length}`);

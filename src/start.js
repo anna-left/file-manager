@@ -5,9 +5,10 @@ import readline from 'readline';
 import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
 import { getParentDirectory } from "./getParentDirectory.js";
-import { getChildrenDirectory } from "./getChildrenDirectory.js";
+import { getNewDirectory } from "./getNewDirectory.js";
 // import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
+import { compress } from "./compress.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
@@ -55,11 +56,11 @@ export const start = async () => {
         getParentDirectory();
         break;
       case 'cd':
-        getChildrenDirectory(curText1);
+        getNewDirectory(curText1);
         break;
-      // case ' ':
-        
-      //   break;
+      case 'compress':
+        compress(curText1, curText2);
+        break;
       // case value:
       //   break;
       // case value:
@@ -70,7 +71,7 @@ export const start = async () => {
         console.log('Invalid input');
         break;
     }
-    showWorkingDirectory(import.meta.url);
+    showWorkingDirectory();
   }).on('close', () => {
     // console.log('exit');
     process.exit();

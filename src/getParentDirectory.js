@@ -1,9 +1,8 @@
-import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 import { STATE } from "./globalValues.js";
 
-export const getParentDirectory = (url) => {
+export const getParentDirectory = () => {
   STATE.workingDirectory = dirname(STATE.workingDirectory);
   console.log(STATE.workingDirectory);
 };
