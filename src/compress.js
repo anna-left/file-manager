@@ -3,6 +3,7 @@ import zlib from 'zlib';
 import { existsSync } from 'fs';
 
 import { getPathFromFile } from "./getPathFromFile.js";
+import { showMessageOperationFailed } from "./globalValues.js";
 
 export const compress = (fileName, compressFileName) => {
 
@@ -10,24 +11,31 @@ export const compress = (fileName, compressFileName) => {
   compressFileName = getPathFromFile(compressFileName);
 
   if (!fileName || !compressFileName) {
-    console.log('Operation failed');
+    showMessageOperationFailed();
     return;
   }
 
   if (!existsSync(fileName)) {
-    console.log('Operation failed');
+    showMessageOperationFailed();
     return;
   }
 
   const readStream = fs.createReadStream(fileName);
   const writeStream = fs.createWriteStream(compressFileName);
 
-  const brotli = zlib.createBrotliCompress();
+  readStream.on('error', () => {
+    showMessageOperationFailed();
+  });
+
+  writeStream.on('error', () => {
+    showMessageOperationFailed();
+  });
 
   try {
+    const brotli = zlib.createBrotliCompress();
     readStream.pipe(brotli).pipe(writeStream);
   } catch (error) {
-    console.log('Operation failed');
+    showMessageOperationFailed();
   }
 
 };
