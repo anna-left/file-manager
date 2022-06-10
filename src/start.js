@@ -3,16 +3,8 @@ import os from 'os';
 import readline from 'readline';
 import { chdir } from 'node:process';
 
-import { STATE } from "./globalValues.js";
 import { showWorkingDirectory } from "./showWorkingDirectory.js";
-import { getParentDirectory } from "./getParentDirectory.js";
-import { getNewDirectory } from "./getNewDirectory.js";
-import { createFile } from "./createFile.js";
-import { getOsInfo } from "./getOsInfo.js";
-import { compress } from "./compress.js";
-import { list } from "./list.js";
-import { cat } from "./cat.js";
-import { rename } from "./rename.js";
+import { processСommands } from './processСommands.js';
 
 export const start = async () => {
   const userNameString = process.argv[2];
@@ -26,11 +18,10 @@ export const start = async () => {
     return;
   }
 
-  STATE.userName = userName;
   chdir(os.homedir());
 
   console.log();
-  console.log(`Welcome to the File Manager, ${STATE.userName}!`);
+  console.log(`Welcome to the File Manager, ${userName}!`);
   showWorkingDirectory(import.meta.url);
 
   const rlInterface = readline.createInterface({
@@ -38,50 +29,9 @@ export const start = async () => {
     output: process.stdout
   });
 
+  rlInterface.on('line', async (data) => {
+    await processСommands(data);
 
-  rlInterface.on('line', data => {
-    const arrText = data.toString().trim().replace(EOL, "").split(" ");
-    const curCommand = arrText[0];
-    const curText1 = arrText[1];
-    const curText2 = arrText[2];
-    switch (curCommand) {
-      case '.exit':
-        process.exit();
-        break;
-      case 'add':
-        createFile(curText1);
-        break;
-      case 'os':
-        getOsInfo(curText1);
-        break;
-      case 'up':
-        getParentDirectory();
-        break;
-      case 'cd':
-        getNewDirectory(curText1);
-        break;
-      case 'compress':
-        compress(curText1, curText2);
-        break;
-      case 'ls':
-        list();
-        break;
-      case 'cat':
-        cat(curText1);
-        break;
-      case 'rn':
-        rename(curText1, curText2);
-        break;
-      // case ':
-      //   break;
-      // case ':
-      //   break;
-      // case ':
-      //   break;
-      default:
-        console.log('Invalid input');
-        break;
-    }
     showWorkingDirectory();
   }).on('close', () => {
     process.exit();
@@ -91,9 +41,8 @@ export const start = async () => {
     process.exit();
   });
   process.on('exit', () => {
-    console.log(`Thank you for using File Manager, ${STATE.userName}!${EOL}`);
+    console.log(`Thank you for using File Manager, ${userName}!${EOL}`);
   });
-
 
 };
 
