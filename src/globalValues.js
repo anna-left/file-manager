@@ -1,5 +1,1 @@
-export const STATE = { 
-  userName: "",
-  workingDirectory: '',
-  messageInvalidInput: 'Invalid input'
-};
+export const showMessageOperationFailed = () => console.log('Operation failed');
