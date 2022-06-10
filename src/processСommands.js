@@ -5,12 +5,14 @@ import { getNewDirectory } from "./getNewDirectory.js";
 import { createFile } from "./createFile.js";
 import { getOsInfo } from "./getOsInfo.js";
 import { compress } from "./compress.js";
+import { decompress } from "./decompress.js";
 import { list } from "./list.js";
 import { cat } from "./cat.js";
 import { rename } from "./rename.js";
 import { copy } from './copy.js';
 import { move } from './move.js';
 import { remove } from './remove.js';
+import { calculateHash } from './calculateHash.js';
 
 export const processСommands = async (data) => {
   const arrText = data.toString().trim().replace(EOL, "").split(" ");
@@ -60,6 +62,9 @@ export const processСommands = async (data) => {
     case 'compress':
       compress(curText1, curText2);
       break;
+    case 'decompress':
+      decompress(curText1, curText2);
+      break;
     case 'ls':
       if (curText1) {
         console.log('Invalid input');
@@ -90,8 +95,13 @@ export const processСommands = async (data) => {
       }
       remove(curText1);
       break;
-    // case '':
-    //   break;
+    case 'hash':
+      if (curText2) {
+        console.log('Invalid input');
+        break;
+      } 
+      calculateHash(curText1);
+      break;
     // case '':
     //   break;
     // case '':
