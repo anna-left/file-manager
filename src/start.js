@@ -12,6 +12,7 @@ import { getOsInfo } from "./getOsInfo.js";
 import { compress } from "./compress.js";
 import { list } from "./list.js";
 import { cat } from "./cat.js";
+import { rename } from "./rename.js";
 
 export const start = async () => {
   const userNameString = process.argv[2];
@@ -68,7 +69,14 @@ export const start = async () => {
       case 'cat':
         cat(curText1);
         break;
-      // case value:
+      case 'rn':
+        rename(curText1, curText2);
+        break;
+      // case ':
+      //   break;
+      // case ':
+      //   break;
+      // case ':
       //   break;
       default:
         console.log('Invalid input');
