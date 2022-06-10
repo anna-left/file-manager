@@ -1,10 +1,15 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 
 import { showMessageOperationFailed } from "./globalValues.js";
 
 export const createFile = async (fileName) => {
-  await fs.writeFile(fileName, '', (err) => {
-    if (err) showMessageOperationFailed();
+  const writeStream = fs.createWriteStream(fileName);
+  writeStream.on('error', () => {
+    showMessageOperationFailed();
   });
-
+  try {
+    writeStream.write('');
+  } catch (error) {
+    showMessageOperationFailed();
+  }
 }
