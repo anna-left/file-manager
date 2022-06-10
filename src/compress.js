@@ -1,5 +1,7 @@
 import fs from 'fs';
 import zlib from 'zlib';
+import path from 'path';
+import { join } from 'path';
 import { existsSync } from 'fs';
 
 import { getPathFromFile } from "./getPathFromFile.js";
@@ -18,6 +20,12 @@ export const compress = (fileName, compressFileName) => {
   if (!existsSync(fileName)) {
     showMessageOperationFailed();
     return;
+  }
+
+  const parseFileName = path.parse(fileName);
+  const parseCompressFileName = path.parse(compressFileName);
+  if (!parseCompressFileName.base) {
+    compressFileName = join(parseCompressFileName.dir, `${parseFileName.base}.br`);
   }
 
   const readStream = fs.createReadStream(fileName);
