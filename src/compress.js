@@ -22,11 +22,7 @@ export const compress = (fileName, compressFileName) => {
     return;
   }
 
-  const parseFileName = path.parse(fileName);
-  const parseCompressFileName = path.parse(compressFileName);
-  if (!parseCompressFileName.base) {
-    compressFileName = join(parseCompressFileName.dir, `${parseFileName.base}.br`);
-  }
+  compressFileName = join(compressFileName, `${path.parse(fileName).base}.br`);
 
   const readStream = fs.createReadStream(fileName);
   const writeStream = fs.createWriteStream(compressFileName);

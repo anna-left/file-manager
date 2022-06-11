@@ -17,6 +17,7 @@ export const cat = (fileName) => {
         });
         readStream.on('error', () => {
             showMessageOperationFailed();
+            readStream.destroy();
             resolve();
         });
 

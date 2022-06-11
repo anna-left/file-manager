@@ -86,7 +86,7 @@ export const processСommands = async (data) => {
       copy(curText1, curText2);
       break;
     case 'mv':
-      move(curText1, curText2);
+      await move(curText1, curText2);
       break;
     case 'rm':
       if (curText2) {
@@ -102,10 +102,6 @@ export const processСommands = async (data) => {
       } 
       calculateHash(curText1);
       break;
-    // case '':
-    //   break;
-    // case '':
-    //   break;
     default:
       console.log('Invalid input');
       break;
