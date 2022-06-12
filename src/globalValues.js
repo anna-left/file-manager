@@ -1,0 +1,1 @@
+export const showMessageOperationFailed = () => console.log('Operation failed');
