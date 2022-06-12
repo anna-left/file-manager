@@ -13,21 +13,19 @@ export const copy = async (oldFileName, newFileName) => {
     oldFileName = getPathFromFile(oldFileName);
     newFileName = getPathFromFile(newFileName);
 
-    const parseOldFile = path.parse(oldFileName);
-    const parseNewFile = path.parse(newFileName);
-    if (!parseNewFile.base) {
-        newFileName = join(parseNewFile.dir, parseOldFile.base);
-    }
+    newFileName = join(newFileName, path.parse(oldFileName).base);
 
     const readStream = fs.createReadStream(oldFileName);
     readStream.on('error', () => {
         showMessageOperationFailed();
+        readStream.destroy();
         return;
     });
 
     const writeStream = fs.createWriteStream(newFileName);
     writeStream.on('error', () => {
         showMessageOperationFailed();
+        writeStream.destroy();
         return;
     });
 
@@ -36,5 +34,7 @@ export const copy = async (oldFileName, newFileName) => {
     } catch (error) {
         showMessageOperationFailed();
     }
+    readStream.destroy();
+    writeStream.destroy();
 };
 

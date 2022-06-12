@@ -34,11 +34,14 @@ export const move = async (oldFileName, newFileName) => {
         readStream.on('close', function () {
             fs.unlink(oldFileName, (err) => {
                 if (err) showMessageOperationFailed();
+                resolve();
             });
         });
 
-        readStream.on('data', chunk => writeStream.write(chunk));
+        readStream.pipe(writeStream);
         readStream.on('end', () => resolve());
+        readStream.destroy();
+        writeStream.destroy();
     });
 };
 

@@ -15,95 +15,123 @@ import { remove } from './remove.js';
 import { calculateHash } from './calculateHash.js';
 
 export const processСommands = async (data) => {
-  const arrText = data.toString().trim().replace(EOL, "").split(" ");
+  const arrText = parseData(data);
   if (arrText.length > 3) {
     console.log('Invalid input');
     return;
   }
   const curCommand = arrText[0];
-  const curText1 = arrText[1];
-  const curText2 = arrText[2];
+  const arg1 = arrText[1];
+  const arg2 = arrText[2];
   switch (curCommand) {
     case '.exit':
-      if (curText1) {
+      if (arg1) {
         console.log('Invalid input');
         break;
       }
       process.exit();
       break;
     case 'add':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
       }
-      createFile(curText1);
+      createFile(arg1);
       break;
     case 'os':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
       }
-      getOsInfo(curText1);
+      getOsInfo(arg1);
       break;
     case 'up':
-      if (curText1) {
+      if (arg1) {
         console.log('Invalid input');
         break;
       }
       getParentDirectory();
       break;
     case 'cd':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
       }
-      getNewDirectory(curText1);
+      getNewDirectory(arg1);
       break;
     case 'compress':
-      compress(curText1, curText2);
+      compress(arg1, arg2);
       break;
     case 'decompress':
-      decompress(curText1, curText2);
+      decompress(arg1, arg2);
       break;
     case 'ls':
-      if (curText1) {
+      if (arg1) {
         console.log('Invalid input');
         break;
       }
       list();
       break;
     case 'cat':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
       }
-      await cat(curText1);
+      await cat(arg1);
       break;
     case 'rn':
-      rename(curText1, curText2);
+      rename(arg1, arg2);
       break;
     case 'cp':
-      copy(curText1, curText2);
+      copy(arg1, arg2);
       break;
     case 'mv':
-      await move(curText1, curText2);
+      await move(arg1, arg2);
       break;
     case 'rm':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
       }
-      remove(curText1);
+      remove(arg1);
       break;
     case 'hash':
-      if (curText2) {
+      if (arg2) {
         console.log('Invalid input');
         break;
-      } 
-      calculateHash(curText1);
+      }
+      calculateHash(arg1);
       break;
     default:
       console.log('Invalid input');
       break;
   }
+}
+
+function parseData(data) {
+  data = data.toString().trim().replace(EOL, "");
+
+  let index = data.indexOf('"');
+  if (index === -1) {
+    return data.split(" ");
+  }
+
+  const indexSpace = data.indexOf(' ');
+
+  let arrText = [];
+  arrText.push(data.slice(0, indexSpace));
+
+  data = data.slice(indexSpace).trim();
+
+  index = data.indexOf('"');
+  if (index === 0) {
+    arrText = arrText.concat(data.split('" '));
+  } else {
+    arrText = arrText.concat(data.split(' "'));
+  }
+
+  for (let i = 0; i < arrText.length; i++) {
+    arrText[i] = arrText[i].trim().replace(/"/g, '');
+  }
+  return arrText;
 }
